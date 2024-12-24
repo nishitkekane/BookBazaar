@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Book</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <header class="flex justify-between items-center px-8 py-4 bg-white shadow-md">
+        <div class="flex items-center space-x-4">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFTcO4fuOyPdc6jp-3ekgODkFSro0fWCR6Fg&s" 
+                 alt="App Logo" 
+                 class="h-12 w-12 rounded-full border border-white shadow-md">
+            <div class="font-bold text-xl text-gray-900">Book Bazaar</div>
+        </div>
+        <div class="flex space-x-2">
+            <% if (user) { %>
+                <a href="/logout" class="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition">Logout</a>
+            <% } else { %>
+                <a href="/login" class="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition">Login</a>
+                <a href="/signup" class="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition">Sign Up</a>
+            <% } %>
+        </div>
+    </header>
+
+    <div class="container mx-auto mt-8">
+        <h1 class="text-3xl font-bold mb-6">Add New Book</h1>
+
+        <form action="/new" method="POST" enctype="multipart/form-data">
+            <div class="mb-4">
+                <label for="name" class="block text-sm font-medium text-gray-700">Book Name</label>
+                <input type="text" id="name" name="name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="author" class="block text-sm font-medium text-gray-700">Author</label>
+                <input type="text" id="author" name="author" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="subject" class="block text-sm font-medium text-gray-700">Subject</label>
+                <input type="text" id="subject" name="subject" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="shortDescription" class="block text-sm font-medium text-gray-700">Short Description</label>
+                <textarea id="shortDescription" name="shortDescription" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"></textarea>
+            </div>
+
+            <div class="mb-4">
+                <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+                <input type="number" id="price" name="price" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="image" class="block text-sm font-medium text-gray-700">Book Image</label>
+                <input type="file" id="image" name="image" class="mt-1 block w-full" accept="image/*">
+            </div>
+
+            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition">Add Book</button>
+        </form>
+    </div>
+</body>
+</html>

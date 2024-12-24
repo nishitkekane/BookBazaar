@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans leading-relaxed">
+  <!-- Header Section -->
+  <header class="bg-blue-900 text-white py-6 shadow-lg">
+    <div class="container mx-auto flex justify-between items-center px-6">
+      <!-- Logo and Name Section -->
+      <div class="flex items-center space-x-4">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFTcO4fuOyPdc6jp-3ekgODkFSro0fWCR6Fg&s" 
+             alt="App Logo" 
+             class="h-12 w-12 rounded-full border border-white shadow-md">
+        <h1 class="text-3xl font-bold tracking-wide">Book Bazaar</h1>
+      </div>
+      <!-- Navigation -->
+      <nav class="space-x-4">
+        <a href="/user/<%= user._id %>" class="text-lg text-white hover:underline">Home</a>
+        <a href="/new" class="text-lg text-white hover:underline">List Book</a>
+        <a href="/logout" 
+           class="text-lg bg-red-600 px-4 py-2 rounded-lg hover:bg-red-700 transition shadow-md">
+           Logout
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Section -->
+  <main class="max-w-5xl mx-auto mt-12 p-8 bg-white rounded-lg shadow-lg">
+    <h2 class="text-3xl font-bold text-blue-900 mb-6">My Books</h2>
+    <!-- Book List -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% books.forEach(book => { %>
+        <div class="book-card bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
+          <!-- Book Details -->
+          <img src="/<%= book.image %>" alt="<%= book.name %>" class="w-full h-64 object-cover rounded-lg shadow-md mb-4">
+          <h2 class="text-2xl font-bold text-blue-900 mb-2 text-center"><%= book.name %></h2>
+          <p class="text-center"><strong>Author:</strong> <%= book.author %></p>
+          <p class="text-center"><strong>Description:</strong> <%= book.shortDescription %></p>
+          <p class="text-center"><strong>Price:</strong> ₹<%= book.price %></p>
+      
+          <!-- Conditional Buttons: Show Delist if Owner -->
+          <div class="flex space-x-4 mt-4">
+            <% if (user && user.email === book.owner) { %> <!-- If current user is the owner -->
+              <!-- Delist (Delete) Button -->
+              <form action="/delete-book/<%= book._id %>?_method=DELETE" method="POST" class="inline">
+                <button type="submit" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition shadow-md">
+                  Delist Book
+                </button>
+              </form>
+              <a href="/book/<%= book._id %>" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition shadow-md">
+                Details
+              </a>
+            <% } else { %> <!-- If current user is not the owner -->
+              <!-- Other buttons like Contact Owner or Make Payment -->
+              <a href="/book/<%= book._id %>" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition shadow-md">
+                Details
+              </a>
+              
+              <form action="/checkout-payment" method="POST" class="inline">
+                <input type="hidden" name="bookId" value="<%= book._id %>">
+                <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-800 transition shadow-md">
+                 Payment
+                </button>
+              </form>
+            <% } %>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+    
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="bg-blue-900 text-white py-6 mt-12">
+    <div class="container mx-auto text-center">
+      <p class="text-sm font-medium tracking-wide">&copy; 2024 Book Bazaar. All rights reserved.</p>
+    </div>
+  </footer>
+  
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Details</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 font-sans leading-relaxed">
+  <!-- Header Section -->
+  <header class="bg-blue-900 text-white py-6 shadow-lg">
+    <div class="container mx-auto flex justify-between items-center px-6">
+      <!-- Logo and Name Section -->
+      <div class="flex items-center space-x-4">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFTcO4fuOyPdc6jp-3ekgODkFSro0fWCR6Fg&s" 
+             alt="App Logo" 
+             class="h-12 w-12 rounded-full border border-white shadow-md">
+        <h1 class="text-3xl font-bold tracking-wide">Book Bazaar</h1>
+      </div>
+      <!-- Navigation -->
+      <nav class="space-x-4">
+        <a href="/" class="text-lg text-white hover:underline">Home</a>
+        <a href="/<%= owner ? owner._id : '' %>/gallery" class="text-lg text-white hover:underline">Books</a>
+        <a href="/logout" 
+           class="text-lg bg-red-600 px-4 py-2 rounded-lg hover:bg-red-700 transition shadow-md">
+           Logout
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Section -->
+  <main class="max-w-5xl mx-auto mt-12 p-8 bg-white rounded-lg shadow-lg">
+    <!-- Book Cover and Details -->
+    <div class="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-12">
+      <!-- Book Image -->
+      <img src="/<%= book.image %>" alt="<%= book.name %>" class="w-64 h-64 object-cover rounded-lg shadow-md">
+      
+      <!-- Book Info -->
+      <div class="flex-1 space-y-4">
+        <h2 class="text-4xl font-bold text-blue-900"><%= book.name %></h2>
+        <p class="text-lg text-gray-700">
+          <strong class="font-semibold text-gray-900">Author:</strong> 
+          <span class="ml-2"><%= book.author %></span>
+        </p>
+        <p class="text-lg text-gray-700">
+          <strong class="font-semibold text-gray-900">Description:</strong> 
+          <span class="ml-2"><%= book.shortDescription %></span>
+        </p>
+        <p class="text-lg text-gray-700">
+          <strong class="font-semibold text-gray-900">Owner's Email:</strong> 
+          <span class="ml-2"><%= owner.email %></span>
+        </p>
+        <p class="text-lg text-gray-700">
+          <strong class="font-semibold text-gray-900">Owner's Username:</strong> 
+          <span class="ml-2"><%= owner.username %></span>
+        </p>
+        <p class="text-lg text-gray-700">
+          <strong class="font-semibold text-gray-900">Price:</strong> 
+          <span class="ml-2 text-green-500 font-bold">₹<%= book.price %></span>
+        </p>
+        <!-- Action Buttons -->
+        <div class="flex space-x-4 mt-4">
+          <% if (loggedInUser && owner && owner._id.toString() !== loggedInUser._id.toString()) { %>
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=<%= owner.email %>&su=Inquiry about <%= book.name %>" 
+              target="_blank" 
+              class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition shadow-md">
+              Contact Owner
+            </a>  
+
+            <form action="/make-payment" method="POST" class="inline">
+              <input type="hidden" name="bookId" value="<%= book._id %>">
+              <button type="submit" 
+                      class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-800 transition shadow-md">
+                Make Payment
+              </button>
+            </form>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="bg-blue-900 text-white py-6 mt-12">
+    <div class="container mx-auto text-center">
+      <p class="text-sm font-medium tracking-wide">&copy; 2024 Book Bazaar. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
+

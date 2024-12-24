@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Bazaar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<style>
+  @keyframes slideInFromLeft {
+    0% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.7;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .animate-slideInFromLeft {
+    animation: slideInFromLeft 1s ease-out;
+  }
+
+  /* Optional: add a bounce effect */
+  .animate-bounceIn {
+    animation: bounceIn 1s ease-out;
+  }
+
+  @keyframes bounceIn {
+    0% {
+      transform: scale(0.3);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+</style>
+<body class="bg-gradient-to-b from-white to-orange-200 text-gray-800 font-sans">
+  <!-- Header -->
+  <header class="flex justify-between items-center px-8 py-4 bg-white shadow-md">
+  
+    <div class="flex items-center space-x-4">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFTcO4fuOyPdc6jp-3ekgODkFSro0fWCR6Fg&s" alt="App Logo" class="h-12 w-12 rounded-full border border-white shadow-md">
+      <div class="font-bold text-xl text-gray-900">Book Bazaar</div>
+    </div>
+    
+    <!-- If user is logged in, display a centered "Welcome" text and the logout button -->
+    <div class="flex justify-center items-center flex-grow">
+      <% if (user) { %> <!-- If user is logged in -->
+        <div class="welcome-text text-gray-800 font-semibold text-2xl md:text-3xl animate-slideInFromLeft">
+          Welcome, <%= user.username %>
+        </div> <!-- Display user's name -->
+      <% } %>
+    </div>
+  
+    <!-- Buttons for Login, Sign Up, or Logout in the header -->
+    <div class="flex items-center space-x-4">
+      <% if (user) { %> <!-- If user is logged in -->
+        <a href="/logout" class="px-4 py-2 bg-red-500 text-white rounded-lg shadow hover:bg-red-600 transition">Logout</a>
+      <% } else { %> <!-- If user is not logged in -->
+        <a href="/login" class="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition">Login</a>
+        <a href="/signup" class="px-4 py-2 bg-green-500 text-white rounded-lg shadow hover:bg-green-600 transition">Sign Up</a>
+      <% } %>
+    </div>
+  </header>
+  
+
+  <!-- Hero Section -->
+  <section id="home" class="container mx-auto mt-16 px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <!-- Text Content -->
+      <div class="flex flex-col">
+        <div class="text-sm font-semibold text-blue-600">Analysis. Research. Problem Solving.</div>
+        <h1 class="text-4xl md:text-5xl font-bold mt-4">Find Yourself in a <span class="text-blue-600">Great Book</span></h1>
+        <p class="text-gray-600 mt-4 text-lg leading-relaxed">Book Bazaar is a digital marketplace where users can list their old books for sale, browse listings from others, and purchase used books at discounted prices. It allows book lovers to recycle their books, save money, and build a diverse collection.</p>
+        <div class="mt-6 flex space-x-4">
+          <a href="/<%= user ? user._id : '' %>/gallery" class="px-6 py-3 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition">
+            Get Started
+          </a>
+          <a href="/learnmore" class="px-6 py-3 border border-blue-500 text-blue-500 rounded-lg hover:bg-blue-50 transition">Learn More</a>
+        </div>
+      </div>
+      <!-- Slideshow -->
+      <div class="relative w-full overflow-hidden shadow-lg rounded-lg">
+        <div id="carousel" class="flex transition-transform duration-500"></div>
+        <!-- Navigation Buttons -->
+        <button id="prev" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white rounded-full h-10 w-10 flex items-center justify-center shadow-lg hover:bg-gray-700 transition">
+          &larr;
+        </button>
+        <button id="next" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white rounded-full h-10 w-10 flex items-center justify-center shadow-lg hover:bg-gray-700 transition">
+          &rarr;
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="about" class="container mx-auto mt-16 px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+    <!-- Dynamically generated features will be injected here -->
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white text-center py-4 mt-16">
+    <p class="text-sm">© <script>document.write(new Date().getFullYear());</script> Book Bazaar. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    // Sample data for slides
+    const slidesData = [
+      { image: "https://media.istockphoto.com/id/583816330/photo/diverse-group-of-friends-discussing-a-book-in-library.jpg?s=2048x2048&w=is&k=20&c=-eEe4AQTPhJMiut_Qpn1PnsJE_qBeh_Gg1aYrxYfdH4=", alt: "Slide 1" },
+      { image: "https://media.istockphoto.com/id/949118068/photo/books.webp?a=1&b=1&s=612x612&w=0&k=20&c=lxb-mHWs3AkeKR-J7ZwD8a5Mo9vmsq3uYPMaJbIUoCI=", alt: "Slide 2" },
+      { image: "https://media.istockphoto.com/id/1399523877/photo/young-indian-ethnicity-woman-leading-discussion-while-going-over-books-in-meeting-in-modern.webp?a=1&b=1&s=612x612&w=0&k=20&c=oTRmNzTCOxLCvFkuubSPocwSGlv4Jm7CRN2juq_BjjY=", alt: "Slide 3" },
+    ];
+
+    // Sample data for features
+    const featuresData = [
+      { image: "https://media.istockphoto.com/id/949118068/photo/books.webp?a=1&b=1&s=612x612&w=0&k=20&c=lxb-mHWs3AkeKR-J7ZwD8a5Mo9vmsq3uYPMaJbIUoCI=", alt: "Feature 1", title: "Curated Selection", description: "Hand-picked books to suit every taste." },
+      { image: "https://images.unsplash.com/photo-1580828343064-fde4fc206bc6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8c2FsZXxlbnwwfHwwfHx8MA%3D%3D", alt: "Feature 2", title: "Affordable Prices", description: "Quality books at unbeatable prices." },
+      { image: "https://media.istockphoto.com/id/547406694/photo/motion-blur-of-two-men-moving-boxes-in-a-warehouse.webp?a=1&b=1&s=612x612&w=0&k=20&c=HjXCr2NjV5xqc5tDzT2jo9_k_TYw_zadap6wGgIBLsk=", alt: "Feature 3", title: "Fast Delivery", description: "Get your books delivered to your doorstep quickly." },
+    ];
+
+    // Populate the carousel
+    const carousel = document.getElementById("carousel");
+    slidesData.forEach((slide) => {
+      const slideElement = document.createElement("div");
+      slideElement.className = "min-w-full";
+      slideElement.innerHTML = `<img src="${slide.image}" alt="${slide.alt}" class="rounded-lg shadow-md">`;
+      carousel.appendChild(slideElement);
+    });
+
+    // Populate the features section
+    const featuresSection = document.getElementById("about");
+    featuresData.forEach((feature) => {
+      const featureElement = document.createElement("div");
+      featureElement.className = "text-center p-4 bg-white rounded-lg shadow-md";
+      featureElement.innerHTML = `
+        <img src="${feature.image}" alt="${feature.alt}" class="h-32 w-32 mx-auto rounded-full shadow-lg mb-4">
+        <h3 class="font-semibold text-xl">${feature.title}</h3>
+        <p class="text-gray-600 mt-2">${feature.description}</p>
+      `;
+      featuresSection.appendChild(featureElement);
+    });
+
+    // Implement carousel navigation
+    const prevButton = document.getElementById("prev");
+    const nextButton = document.getElementById("next");
+    let currentIndex = 0;
+
+    function showSlide(index) {
+      const slides = carousel.children;
+      if (index >= slides.length) currentIndex = 0;
+      if (index < 0) currentIndex = slides.length - 1;
+      carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
+
+    prevButton.addEventListener("click", () => {
+      currentIndex--;
+      showSlide(currentIndex);
+    });
+
+    nextButton.addEventListener("click", () => {
+      currentIndex++;
+      showSlide(currentIndex);
+    });
+  </script>
+</body>
+</html>
