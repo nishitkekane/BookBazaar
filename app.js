@@ -4,7 +4,7 @@ const multer = require('multer');
 const path = require('path');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
-const stripe = require('stripe')('sk_test_51QDOGKCindc2bt4HI6xuoniTydStd6SC39NqegqkAIBBOzWtmaQ5athoZqPMt470K3KXsST2seN7i8B925YQId6b00lJsDUr9B');
+const stripe = ('');
 const cors = require('cors');
 const methodOverride = require('method-override');
 const nodemailer = require('nodemailer'); // Add Nodemailer
@@ -117,8 +117,8 @@ app.post('/new', upload.single('image'), async (req, res) => {
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'nishit.kekane04@gmail.com', // Your email address
-    pass: 'kmbp wwnh pvat nizb', // Your email password or app-specific password
+    user: '', // Your email address
+    pass: '', // Your email password or app-specific password
   },
 });
 
